@@ -55,7 +55,7 @@ class CompaniesController(
     fun createDraft(@PathVariable("id") companyId: UUID, @RequestHeader(USER_ID_HEADER) userId: UUID): DraftResponse {
         return storageService.executeInBranch(MAIN_BRANCH) {
             val draftId = UUID.randomUUID()
-            val branchName = draftId.toString() // also transactionId
+            val branchName = draftId.toString()
 
             storageService.createAndCheckoutBranch(branchName)
             val company = companyRepository.findById(companyId).orElseThrow()

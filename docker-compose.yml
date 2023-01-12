@@ -7,7 +7,7 @@ services:
     image: dolthub/dolt-sql-server:0.52.0
     restart: unless-stopped
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - dolt_data:/var/lib/dolt:z
       - ./docker/doltdb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:z
