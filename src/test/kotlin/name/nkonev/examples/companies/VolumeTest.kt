@@ -22,12 +22,12 @@ class VolumeTest {
     val testUserId = UUID.randomUUID()
 
     @Test
-    fun thirty_five_thousands_branches() {
+    fun fifty_thousands_branches() {
         val company = Company(UUID.randomUUID(), "Company one", new = true)
         val savedCompany = companiesController.createCompany(company, testUserId)
         logger.info("Created company with name ${savedCompany.name}, id ${savedCompany.identifier}")
 
-        val max = 35000
+        val max = 50_000
         for (i in 1..max) {
             val branchName = UUID.randomUUID().toString()
             storageService.createAndCheckoutBranch(branchName)
