@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.util.*
 
+// This is separated test which works with database declared in application.yaml
 @EnabledIfSystemProperty(named = "enableLoadTests", matches = "true")
 @SpringBootTest(classes = [CompaniesApplication::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class VolumeTest {

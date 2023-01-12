@@ -15,6 +15,7 @@ import java.util.*
 
 const val MYSQL_PORT = 3306
 
+// Those tests work with database from testcontainers
 @SpringBootTest(classes = [CompaniesApplication::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
 abstract class AbstractTest {
