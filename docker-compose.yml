@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  # mysql --host 0.0.0.0 -P 3306 -u root
+  # https://hub.docker.com/r/dolthub/dolt-sql-server
+  doltdb:
+    image: dolthub/dolt-sql-server:0.52.0
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    volumes:
+      - dolt_data:/var/lib/dolt:z
+      - ./docker/doltdb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:z
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "1"
+
+volumes:
+  dolt_data:

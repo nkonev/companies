@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: nkonev
+      changes:
+        - sqlFile:
+            path: /db/changelog/1_create_company_and_mapping.sql
+
+  - changeSet:
+      id: 2
+      author: nkonev
+      changes:
+        - sqlFile:
+            path: /db/changelog/2_add_data.sql

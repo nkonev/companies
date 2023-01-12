@@ -1,0 +1,6 @@
+spring:
+  liquibase:
+    change-log: classpath:/db/changelog.yml
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/companies?autoReconnect=true&useSSL=false
+    username: root
