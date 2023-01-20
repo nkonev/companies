@@ -1,21 +1,22 @@
 version: '3.7'
 
 services:
-  # mysql --host 0.0.0.0 -P 3306 -u root
-  # https://hub.docker.com/r/dolthub/dolt-sql-server
-  doltdb:
-    image: dolthub/dolt-sql-server:0.52.0
+  postgresql:
+    image: postgres:14.1-alpine3.14
     restart: unless-stopped
     ports:
-      - 3306:3306
+      - 37432:5432
     volumes:
-      - dolt_data:/var/lib/dolt:z
-      - ./docker/doltdb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:z
+      - ./docker/postgresql_dev/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:z
+      - postgres_data:/var/lib/postgresql/data:z
+    environment:
+      - POSTGRES_PASSWORD=postgresqlPassword
     logging:
       driver: "json-file"
       options:
         max-size: "50m"
         max-file: "1"
 
+
 volumes:
-  dolt_data:
+  postgres_data:

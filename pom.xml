@@ -12,7 +12,7 @@
 	<artifactId>companies-many-branches</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>companies</name>
-	<description>Demo project for DoltDB</description>
+	<description>Demo project for branching companies</description>
 	<properties>
 		<java.version>17</java.version>
 		<kotlin.version>1.6.21</kotlin.version>
@@ -40,9 +40,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.liquibase</groupId>

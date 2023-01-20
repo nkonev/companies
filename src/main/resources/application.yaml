@@ -2,5 +2,6 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog.yml
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/companies?autoReconnect=true&useSSL=false
-    username: root
+    url: jdbc:postgresql://127.0.0.1:37432/companies?connectTimeout=10&socketTimeout=40&ApplicationName=web-jdbc-app
+    username: companies
+    password: companiesPazZw0rd
