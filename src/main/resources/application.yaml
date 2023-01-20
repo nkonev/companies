@@ -1,3 +1,6 @@
+#logging.level:
+#  org.springframework.jdbc.core: TRACE
+
 spring:
   liquibase:
     change-log: classpath:/db/changelog.yml
