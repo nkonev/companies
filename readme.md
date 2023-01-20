@@ -14,7 +14,7 @@ curl -Ss -H 'X-Userid: c092a0ad-8148-4291-9194-6c3d12a1120a' -H 'Content-Type: a
 
 ```
 
-# Repro
+# Load test
 ```
 docker-compose up -d
 ./mvnw -DenableLoadTests=true -Dtest="name.nkonev.examples.companies.VolumeTest#fifty_thousands_branches" test
