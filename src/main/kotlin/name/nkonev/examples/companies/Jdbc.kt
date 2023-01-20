@@ -16,7 +16,7 @@ import java.util.*
 
 @Table(name = "company")
 data class Company(
-    @Id @Column("id") @JsonProperty("id") val identifier: UUID = UUID.randomUUID(),
+    @Id @Column("id") @JsonProperty("id") val identifier: UUID? = null,
     val name: String,
     var bankAccount: String? = null,
     var estimatedSize: Int? = null,
@@ -25,7 +25,7 @@ data class Company(
 ) : Persistable<UUID> {
 
     @JsonIgnore
-    override fun getId(): UUID {
+    override fun getId(): UUID? {
         return identifier
     }
 
@@ -47,35 +47,4 @@ data class Company(
 
 interface CompanyRepository: CrudRepository<Company, UUID> {
     fun findAll(pageable: Pageable): List<Company>
-}
-
-@Table(name = "mapping")
-data class Mapping(
-    @Id @Column("branch_id") @JsonProperty("branchId") val identifier: UUID = UUID.randomUUID(),
-    val userId: UUID,
-    val companyId: UUID,
-    @Transient @JsonIgnore val new: Boolean = false
-) : Persistable<UUID> {
-    @JsonIgnore
-    override fun getId(): UUID {
-        return identifier
-    }
-
-    @JsonIgnore
-    override fun isNew(): Boolean {
-        return new
-    }
-
-    // Fixes Required property new not found for class
-    @PersistenceCreator
-    constructor(
-        identifier: UUID,
-        userId: UUID,
-        companyId: UUID
-    ) : this(identifier, userId, companyId, false)
-}
-
-interface MappingRepository: CrudRepository<Mapping, UUID> {
-    fun findByCompanyId(companyId: UUID): List<Mapping>
-
 }
