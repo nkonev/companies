@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>name.nkonev.examples</groupId>
-	<artifactId>companies-many-branches</artifactId>
+	<artifactId>companies</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>companies</name>
 	<description>Demo project for DoltDB</description>
