@@ -128,4 +128,23 @@ class VolumeTest {
         }
     }
 
+    // adds with commit
+    @Test
+    fun seven_thousand_companies_by_http() {
+
+        val insertionTime = measureTime {
+            storageService.checkoutBranch(MAIN_BRANCH)
+            for (i in 1..7000) {
+                val company = Company(UUID.randomUUID(), "Company number $i")
+                val request = RequestEntity.post(URI.create("http://localhost:${port}/company"))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header(USER_ID_HEADER, testUserId.toString())
+                    .body(company)
+                val response = restTemplate.exchange(request, String::class.java)
+
+                logger.info("Inserting a company $i through http ${response.body}")
+            }
+        }
+        logger.info("Insertion time ${insertionTime}")
+    }
 }
