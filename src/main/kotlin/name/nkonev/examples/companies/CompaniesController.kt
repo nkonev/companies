@@ -90,6 +90,20 @@ class CompaniesController(
         }
     }
 
+    @GetMapping("/company/{id}/draft/{draftId}")
+    fun getCompanyInBranch(@PathVariable("id") companyId: UUID, @PathVariable("draftId") draftId: UUID): Company {
+        return storageService.executeInBranch(draftId.toString()) {
+            return@executeInBranch companyRepository.findById(companyId).orElseThrow()
+        }
+    }
+
+    @GetMapping("/company/{id}")
+    fun getCompanyInMainBranch(@PathVariable("id") companyId: UUID): Company {
+        return storageService.executeInBranch(MAIN_BRANCH) {
+            return@executeInBranch companyRepository.findById(companyId).orElseThrow()
+        }
+    }
+
     data class ApproveDraft(val message: String)
 
     @PutMapping("/company/{id}/draft/{draftId}/approve")

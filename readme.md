@@ -4,6 +4,8 @@ curl -Ss -H 'X-Userid: c092a0ad-8148-4291-9194-6c3d12a1120a' -H 'Content-Type: a
 
 curl -Ss --url 'http://localhost:8080/company' | jq '.'
 
+curl -Ss --url 'http://localhost:8080/company/d776630f-9dd1-41e0-b2b7-b4077a40cb84'
+
 curl -Ss -H 'X-Userid: c092a0ad-8148-4291-9194-6c3d12a1120a' -H 'Content-Type: application/json' -X POST --url 'http://localhost:8080/company/d776630f-9dd1-41e0-b2b7-b4077a40cb84/draft' | jq '.'
 
 curl -Ss --url 'http://localhost:8080/company/d776630f-9dd1-41e0-b2b7-b4077a40cb84/drafts' | jq '.'
