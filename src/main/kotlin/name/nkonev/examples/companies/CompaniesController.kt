@@ -55,17 +55,16 @@ class CompaniesController(
     fun createDraft(@PathVariable("id") companyId: UUID, @RequestHeader(USER_ID_HEADER) userId: UUID): DraftResponse {
         return storageService.executeInBranch(MAIN_BRANCH) {
             val draftId = UUID.randomUUID()
-            val branchName = draftId.toString()
+            val branchName = draftId.toString() // also transactionId
+
+            val company = companyRepository.findById(companyId).orElseThrow()
 
             storageService.createAndCheckoutBranch(branchName)
-            val company = companyRepository.findById(companyId).orElseThrow()
-            val saved = companyRepository.save(company)
-            storageService.addAndCommit(userId, "Created new branch for company")
 
             storageService.checkoutBranch(MAIN_BRANCH)
-            mappingRepository.save(Mapping(draftId, userId, saved.identifier, true))
+            mappingRepository.save(Mapping(draftId, userId, company.identifier, true))
             storageService.addAndCommit(userId, "Saved draft mapping draftId=$draftId")
-            return@executeInBranch DraftResponse(draftId, saved)
+            return@executeInBranch DraftResponse(draftId, company)
         }
     }
 

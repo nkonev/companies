@@ -223,10 +223,9 @@ class CompaniesTests: AbstractTest() {
 		}.andReturn()
 		val histories: List<CompaniesController.HistoryResponse> = objectMapper.readValue(draftHistoryResult.response.contentAsString)
 		assertThat(histories)
-			.hasSize(3)
+			.hasSize(2)
 			.extracting("message")
 			.containsExactly(
-				"Created new branch for company",
 				"First patching in draft 1",
 				"The second patching in draft 1"
 			)
