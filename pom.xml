@@ -48,6 +48,13 @@
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
+		<!-- Replaces DATABASECHANGELOGLOCK with session(like advisory lock in Postgres) lock.
+		It is faster and doesn't require the manual update table in case crash. -->
+		<dependency>
+			<groupId>com.github.blagerweij</groupId>
+			<artifactId>liquibase-sessionlock</artifactId>
+			<version>1.6.2</version>
+		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-kotlin</artifactId>
