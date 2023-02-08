@@ -1,4 +1,10 @@
 databaseChangeLog:
+  - changeSet:
+      id: 0
+      author: nkonev
+      changes:
+        - sqlFile:
+            path: /db/changelog/0_branch_permissions.sql
 
   - changeSet:
       id: 1
