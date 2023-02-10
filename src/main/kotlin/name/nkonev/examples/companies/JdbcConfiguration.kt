@@ -1,5 +1,7 @@
 package name.nkonev.examples.companies
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.convert.converter.Converter
@@ -14,7 +16,7 @@ import java.util.*
 @EntityScan(basePackages = ["name.nkonev.examples.companies"])
 @EnableJdbcRepositories(basePackages = ["name.nkonev.examples.companies"])
 @Configuration
-class JdbcConfiguration : AbstractJdbcConfiguration() {
+class JdbcConfiguration(private val objectMapper: ObjectMapper) : AbstractJdbcConfiguration() {
 
     override fun userConverters(): List<Converter<*, *>> {
         return listOf(
@@ -33,7 +35,34 @@ class JdbcConfiguration : AbstractJdbcConfiguration() {
                     bb.putLong(source.getLeastSignificantBits())
                     return bb.array()
                 }
-            }
+            },
+            JsonNodeWritingConverter(objectMapper),
+            JsonNodeReadingConverter(objectMapper),
         )
     }
 }
+
+internal abstract class AbstractJsonReadingConverter<T>(
+    private val objectMapper: ObjectMapper,
+    private val valueType: Class<T>
+) : Converter<String, T> {
+
+    override fun convert(source: String): T {
+        return objectMapper.readValue(source, valueType)
+    }
+}
+
+internal abstract class AbstractJsonWritingConverter<T> (
+    private val objectMapper: ObjectMapper
+) : Converter<T, String> {
+
+    override fun convert(source: T): String {
+        return objectMapper.writeValueAsString(source)
+    }
+}
+
+internal class JsonNodeWritingConverter(objectMapper: ObjectMapper) : AbstractJsonWritingConverter<JsonNode>(objectMapper)
+
+
+internal class JsonNodeReadingConverter(objectMapper: ObjectMapper) :
+    AbstractJsonReadingConverter<JsonNode>(objectMapper, JsonNode::class.java)

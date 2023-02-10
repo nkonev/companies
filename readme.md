@@ -1,6 +1,6 @@
 # Play with companies and drafts
 ```bash
-curl -Ss -H 'X-Userid: c092a0ad-8148-4291-9194-6c3d12a1120a' -H 'Content-Type: application/json' -X POST -d '{"name": "Third company"}' --url 'http://localhost:8080/company' | jq '.'
+curl -Ss -H 'X-Userid: c092a0ad-8148-4291-9194-6c3d12a1120a' -H 'Content-Type: application/json' -X POST -d '{"name": "Third company", "metadata": {"a": "b", "c": 1}}' --url 'http://localhost:8080/company' | jq '.'
 
 curl -Ss --url 'http://localhost:8080/company' | jq '.'
 

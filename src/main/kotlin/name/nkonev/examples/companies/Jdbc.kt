@@ -2,6 +2,8 @@ package name.nkonev.examples.companies
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.NullNode
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.PersistenceCreator
@@ -21,6 +23,7 @@ data class Company(
     var bankAccount: String? = null,
     var estimatedSize: Int? = null,
     @LastModifiedDate var modifiedAt: LocalDateTime? = null,
+    var metadata: JsonNode,
     @Transient @JsonIgnore val new: Boolean = false
 ) : Persistable<UUID> {
 
@@ -42,7 +45,7 @@ data class Company(
         bankAccount: String?,
         estimatedSize: Int?,
         modifiedAt: LocalDateTime?
-    ) : this(identifier, name, bankAccount, estimatedSize, modifiedAt, false)
+    ) : this(identifier, name, bankAccount, estimatedSize, modifiedAt, NullNode.instance, false)
 }
 
 interface CompanyRepository: CrudRepository<Company, UUID> {

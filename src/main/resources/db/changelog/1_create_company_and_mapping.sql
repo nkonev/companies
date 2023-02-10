@@ -5,7 +5,8 @@ CREATE TABLE company(
     name varchar(255),
     bank_account varchar(255),
     estimated_size int,
-    modified_at TIMESTAMP
+    modified_at TIMESTAMP,
+    metadata json
 );
 
 CREATE TABLE mapping(
