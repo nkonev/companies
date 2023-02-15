@@ -51,10 +51,6 @@ data class Company(
     ) : this(identifier, name, bankAccount, estimatedSize, modifiedAt, NullNode.instance, mutableSetOf(), false)
 }
 
-interface CompanyRepository: CrudRepository<Company, UUID> {
-    fun findAll(pageable: Pageable): List<Company>
-}
-
 data class LegalEntity(
     @Id @Column("id") @JsonProperty("id") val identifier: UUID = UUID.randomUUID(),
     var name: String,
@@ -76,7 +72,6 @@ data class LegalEntity(
     constructor(identifier: UUID, name: String, country: String, companyId: UUID): this(identifier, name, country, companyId,false)
 }
 
-interface LegalEntityRepository: CrudRepository<LegalEntity, UUID>
 
 @Table(name = "mapping")
 data class Mapping(
@@ -104,7 +99,3 @@ data class Mapping(
     ) : this(identifier, userId, companyId, false)
 }
 
-interface MappingRepository: CrudRepository<Mapping, UUID> {
-    fun findByCompanyId(companyId: UUID): List<Mapping>
-
-}
