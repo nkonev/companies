@@ -88,7 +88,7 @@ class CompaniesController(
     fun editDraftedCompanyAddLegalEntity(@PathVariable("id") companyId: UUID, @PathVariable("draftId") draftId: UUID, @RequestHeader(USER_ID_HEADER) userId: UUID, @RequestBody body: AddLegalEntity) : Company {
         return storageService.executeInBranch(draftId.toString()) {
             val company = companyRepository.findById(companyId).orElseThrow()
-            val newBody = body.legalEntity.copy(new = true, companyId = null)
+            val newBody = body.legalEntity.copy(new = true, companyId = companyId)
             company.legalEntities = company.legalEntities.plus(newBody)
             val saved: Company = companyRepository.save(company)
             storageService.addAndCommit(userId, body.message)

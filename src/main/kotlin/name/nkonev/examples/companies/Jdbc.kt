@@ -59,7 +59,7 @@ data class LegalEntity(
     @Id @Column("id") @JsonProperty("id") val identifier: UUID = UUID.randomUUID(),
     var name: String,
     var country: String,
-    var companyId: UUID?,
+    var companyId: UUID = UUID.randomUUID(),
     @Transient @JsonIgnore val new: Boolean = false
 ): Persistable<UUID> {
     @JsonIgnore
@@ -73,7 +73,7 @@ data class LegalEntity(
     }
 
     @PersistenceCreator
-    constructor(identifier: UUID, name: String, country: String, companyId: UUID?): this(identifier, name, country, companyId,false)
+    constructor(identifier: UUID, name: String, country: String, companyId: UUID): this(identifier, name, country, companyId,false)
 }
 
 interface LegalEntityRepository: CrudRepository<LegalEntity, UUID>

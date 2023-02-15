@@ -75,7 +75,7 @@ class CompaniesTests: AbstractTest() {
 
 		// patch a draft - add a legal entity
 		mockMvc.put("/company/$companyId/draft/${draftIds[0]}/legal-entity"){
-			this.content = objectMapper.writeValueAsString(CompaniesController.AddLegalEntity("Patching 100505 legal entity", LegalEntity(name = "Third company patched 100505", country = "Land of Freedom", companyId = null)))
+			this.content = objectMapper.writeValueAsString(CompaniesController.AddLegalEntity("Patching 100505 legal entity", LegalEntity(name = "Third company patched 100505", country = "Land of Freedom")))
 			this.contentType = MediaType.APPLICATION_JSON
 			this.header(USER_ID_HEADER, userId)
 		}.andExpect {
