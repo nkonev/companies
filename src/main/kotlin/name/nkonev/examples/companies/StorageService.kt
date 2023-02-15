@@ -29,8 +29,17 @@ class StorageService(val jdbcTemplate: JdbcTemplate, val transactionTemplate: Tr
         jdbcTemplate.update("CALL DOLT_CHECKOUT (?)", name)
     }
 
+    fun getAllBranches(): List<String> {
+        return jdbcTemplate.queryForList("select name from dolt_branches", String::class.java)
+    }
+
     fun deleteBranch(name: String) {
         jdbcTemplate.update("CALL DOLT_BRANCH ('-d', ?)", name)
+    }
+
+    fun forceDeleteBranch(name: String) {
+        logger.info("Forcibly deleting branch {}", name)
+        jdbcTemplate.update("CALL DOLT_BRANCH ('-d', ?, '--force')", name)
     }
 
     fun createAndCheckoutBranch(name: String) {

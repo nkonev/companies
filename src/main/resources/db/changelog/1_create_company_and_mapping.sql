@@ -1,5 +1,3 @@
-CALL DOLT_CHECKOUT('main');
-
 CREATE TABLE company(
     id binary(16) DEFAULT (UUID_TO_BIN(uuid())) PRIMARY KEY,
     name varchar(255),

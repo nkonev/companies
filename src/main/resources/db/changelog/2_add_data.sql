@@ -1,5 +1,3 @@
-CALL DOLT_CHECKOUT('main');
-
 -- https://dev.mysql.com/blog-archive/mysql-8-0-uuid-support/
 INSERT INTO company(id, name)
 VALUES

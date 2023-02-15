@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
@@ -13,9 +14,18 @@ import java.util.*
 
 class CompaniesTests: AbstractTest() {
 
+	private val logger = LoggerFactory.getLogger(this::class.java)
+
 	// in future move to AbstractFunctionalTest
 	@BeforeEach
 	fun beforeEach() {
+		// TODO fix "attempted to delete checked out branch"
+//		val branches = storageService.getAllBranches()
+//		for (branch in branches) {
+//			if (branch != MAIN_BRANCH) {
+//				storageService.forceDeleteBranch(branch)
+//			}
+//		}
 		storageService.executeInBranch(MAIN_BRANCH) {
 			jdbcTemplate.update("DELETE FROM mapping")
 			jdbcTemplate.update("DELETE FROM legal_entity")
