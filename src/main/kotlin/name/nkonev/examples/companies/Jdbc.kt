@@ -59,7 +59,7 @@ data class LegalEntity(
     @Id @Column("id") @JsonProperty("id") val identifier: UUID = UUID.randomUUID(),
     var name: String,
     var country: String,
-    var companyId: UUID = UUID.randomUUID(),
+    var companyId: UUID = UUID(0, 0),
     @Transient @JsonIgnore val new: Boolean = false
 ): Persistable<UUID> {
     @JsonIgnore
