@@ -64,7 +64,7 @@ class CompaniesTests: AbstractTest() {
 
 		// patch a draft - add a legal entity
 		mockMvc.put("/company/$companyId/draft/${draftIds[0]}/legal-entity"){
-			this.content = objectMapper.writeValueAsString(CompaniesController.AddLegalEntity("Patching 100505 legal entity", LegalEntity(name = "Third company patched 100505", country = "Land of Freedom")))
+			this.content = objectMapper.writeValueAsString(CompaniesController.AddLegalEntity("Patching 100505 legal entity", LegalEntity(name = "Third company patched 100505", country = "Land of Freedom", companyId = null)))
 			this.contentType = MediaType.APPLICATION_JSON
 			this.header(USER_ID_HEADER, userId)
 		}.andExpect {
@@ -89,6 +89,7 @@ class CompaniesTests: AbstractTest() {
 			jsonPath("\$.legalEntities.length()") { value(1) }
 			jsonPath("\$.legalEntities[0].name") { value("Third company patched 100505") }
 			jsonPath("\$.legalEntities[0].country") { value("Land of Freedom") }
+			jsonPath("\$.legalEntities[0].companyId") { value(companyId.toString()) }
 		}.andReturn()
 
 		// submit a draft
