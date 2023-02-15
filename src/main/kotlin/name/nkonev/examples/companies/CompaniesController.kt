@@ -18,7 +18,6 @@ class CompaniesController(
     val companyRepository: CompanyRepository,
     val storageService: StorageService,
     val mappingRepository: MappingRepository,
-    val legalEntityRepository: LegalEntityRepository
 ) {
 
     @GetMapping("/company")
