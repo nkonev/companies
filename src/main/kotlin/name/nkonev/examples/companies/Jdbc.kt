@@ -25,7 +25,7 @@ data class Company(
     var estimatedSize: Int? = null,
     @LastModifiedDate var modifiedAt: LocalDateTime? = null,
     var metadata: JsonNode = NullNode.instance,
-    @MappedCollection(keyColumn = "company_id", idColumn = "company_id")
+    @MappedCollection(idColumn = "company_id")
     var legalEntities: Set<LegalEntity> = mutableSetOf(),
     @Transient @JsonIgnore val new: Boolean = false
 ) : Persistable<UUID> {
