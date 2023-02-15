@@ -17,7 +17,7 @@ CREATE TABLE legal_entity(
     id binary(16) DEFAULT (UUID_TO_BIN(uuid())) PRIMARY KEY,
     name varchar(255),
     country varchar(255),
-    company_id binary(16),
+    company_id binary(16) NOT NULL,
     FOREIGN KEY (company_id) references company(id)
 );
 
