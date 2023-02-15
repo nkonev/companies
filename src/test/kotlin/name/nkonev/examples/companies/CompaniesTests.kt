@@ -18,6 +18,7 @@ class CompaniesTests: AbstractTest() {
 	fun beforeEach() {
 		storageService.executeInBranch(MAIN_BRANCH) {
 			jdbcTemplate.update("DELETE FROM mapping")
+			jdbcTemplate.update("DELETE FROM legal_entity")
 			jdbcTemplate.update("DELETE FROM company")
 			storageService.addAndCommit(testUserId, "Database is wiped before test")
 		}
