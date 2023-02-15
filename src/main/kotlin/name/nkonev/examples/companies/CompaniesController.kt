@@ -17,7 +17,8 @@ const val DEFAULT_SORT_BY = "name"
 class CompaniesController(
     val companyRepository: CompanyRepository,
     val storageService: StorageService,
-    val mappingRepository: MappingRepository
+    val mappingRepository: MappingRepository,
+    val legalEntityRepository: LegalEntityRepository
 ) {
 
     @GetMapping("/company")
@@ -75,6 +76,21 @@ class CompaniesController(
         return storageService.executeInBranch(draftId.toString()) {
             val newBody = body.company.copy(identifier = companyId)
             val saved: Company = companyRepository.save(newBody)
+            storageService.addAndCommit(userId, body.message)
+            return@executeInBranch saved
+        }
+    }
+
+
+    data class AddLegalEntity(val message: String, val legalEntity: LegalEntity)
+
+    @PutMapping("/company/{id}/draft/{draftId}/legal-entity")
+    fun editDraftedCompanyAddLegalEntity(@PathVariable("id") companyId: UUID, @PathVariable("draftId") draftId: UUID, @RequestHeader(USER_ID_HEADER) userId: UUID, @RequestBody body: AddLegalEntity) : Company {
+        return storageService.executeInBranch(draftId.toString()) {
+            val company = companyRepository.findById(companyId).orElseThrow()
+            val newBody = body.legalEntity.copy(new = true)
+            company.legalEntities = company.legalEntities.plus(newBody)
+            val saved: Company = companyRepository.save(company)
             storageService.addAndCommit(userId, body.message)
             return@executeInBranch saved
         }
