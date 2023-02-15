@@ -33,7 +33,7 @@ abstract class AbstractTest {
     lateinit var storageService: StorageService
 
     companion object {
-        val database = GenericContainer<Nothing>(DockerImageName.parse("dolthub/dolt-sql-server:0.52.16")).apply {
+        val database = GenericContainer<Nothing>(DockerImageName.parse("dolthub/dolt-sql-server:0.53.0")).apply {
             withClasspathResourceMapping("/init.sql", "/docker-entrypoint-initdb.d/init.sql", BindMode.READ_ONLY)
             withExposedPorts(MYSQL_PORT)
             start()
