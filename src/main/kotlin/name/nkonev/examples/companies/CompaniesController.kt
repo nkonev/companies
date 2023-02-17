@@ -33,7 +33,11 @@ class CompaniesController(
     fun createCompany(@RequestBody body: Company, @RequestHeader(USER_ID_HEADER) userId: UUID): Company {
         return storageService.executeInBranch(MAIN_BRANCH) {
             val newBody = body.copy(new = true)
-            val saved = companyRepository.save(newBody)
+            val oldLegalEntities = newBody.legalEntities
+            val newLegalEntities = oldLegalEntities.map { it.copy(new = true) }.toSet()
+            newBody.legalEntities = newLegalEntities
+            val companyId = companyRepository.save(newBody).id
+            val saved: Company = companyRepository.findById(companyId).orElseThrow()
             storageService.addAndCommit(userId, "Created new company")
             return@executeInBranch saved
         }
