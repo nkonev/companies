@@ -19,14 +19,14 @@ class CompaniesTests: AbstractTest() {
 	// in future move to AbstractFunctionalTest
 	@BeforeEach
 	fun beforeEach() {
-		// TODO fix "attempted to delete checked out branch"
-//		val branches = storageService.getAllBranches()
-//		for (branch in branches) {
-//			if (branch != MAIN_BRANCH) {
-//				storageService.forceDeleteBranch(branch)
-//			}
-//		}
 		storageService.executeInBranch(MAIN_BRANCH) {
+			val branches = storageService.getAllBranches()
+			for (branch in branches) {
+				if (branch != MAIN_BRANCH) {
+					storageService.forceDeleteBranch(branch)
+				}
+			}
+
 			jdbcTemplate.update("DELETE FROM mapping")
 			jdbcTemplate.update("DELETE FROM legal_entity")
 			jdbcTemplate.update("DELETE FROM company")
