@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.RequestEntity
+import org.springframework.transaction.support.TransactionTemplate
 import java.net.URI
 import java.time.Duration
 import java.time.Instant
@@ -26,6 +27,9 @@ class VolumeTest {
 
     @Autowired
     lateinit var companyRepository: CompanyRepository
+
+    @Autowired
+    lateinit var transactionTemplate: TransactionTemplate
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -64,17 +68,20 @@ class VolumeTest {
 
         val insertionTime = measureTime {
             for (i in 1..7000) {
-                val branch = "branch_${i}_${UUID.randomUUID()}"
-                logger.info("Creating ${i}, branch $branch")
-                storageService.createAndCheckoutBranch(branch)
-                val company = Company(UUID.randomUUID(), "Company number $i", new = true)
-                var savedCompany = companyRepository.save(company)
-                storageService.addAndCommit(testUserId, "Save a company $i initial")
-                savedCompany.new = false
-                for (j in 1 .. 10) {
-                    savedCompany.name = "savedCompany.name" + UUID.randomUUID()
-                    savedCompany = companyRepository.save(savedCompany)
-                    storageService.addAndCommit(testUserId, "Save a company $i, iteration ${j}")
+                transactionTemplate.executeWithoutResult {
+
+                    val branch = "branch_${i}_${UUID.randomUUID()}"
+                    logger.info("Creating ${i}, branch $branch")
+                    storageService.createAndCheckoutBranch(branch)
+                    val company = Company(UUID.randomUUID(), "Company number $i", new = true)
+                    var savedCompany = companyRepository.save(company)
+                    storageService.addAndCommit(testUserId, "Save a company $i initial")
+                    savedCompany.new = false
+                    for (j in 1..10) {
+                        savedCompany.name = "savedCompany.name" + UUID.randomUUID()
+                        savedCompany = companyRepository.save(savedCompany)
+                        storageService.addAndCommit(testUserId, "Save a company $i, iteration ${j}")
+                    }
                 }
             }
         }
