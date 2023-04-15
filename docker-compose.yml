@@ -4,7 +4,7 @@ services:
   # mysql --host 0.0.0.0 -P 3306 -u root
   # https://hub.docker.com/r/dolthub/dolt-sql-server
   doltdb:
-    image: dolthub/dolt-sql-server:0.52.8
+    image: dolthub/dolt-sql-server:0.75.11
     restart: unless-stopped
     ports:
       - 3306:3306
