@@ -64,8 +64,9 @@ class VolumeTest {
 
         val insertionTime = measureTime {
             for (i in 1..7000) {
-                logger.info("Creating ${i}")
-                storageService.createAndCheckoutBranch("branch_${i}_${UUID.randomUUID()}")
+                val branch = "branch_${i}_${UUID.randomUUID()}"
+                logger.info("Creating ${i}, branch $branch")
+                storageService.createAndCheckoutBranch(branch)
                 val company = Company(UUID.randomUUID(), "Company number $i", new = true)
                 var savedCompany = companyRepository.save(company)
                 storageService.addAndCommit(testUserId, "Save a company $i initial")
