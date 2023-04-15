@@ -17,11 +17,11 @@ import java.util.*
 @Table(name = "company")
 data class Company(
     @Id @Column("id") @JsonProperty("id") val identifier: UUID = UUID.randomUUID(),
-    val name: String,
+    var name: String,
     var bankAccount: String? = null,
     var estimatedSize: Int? = null,
     @LastModifiedDate var modifiedAt: LocalDateTime? = null,
-    @Transient @JsonIgnore val new: Boolean = false
+    @Transient @JsonIgnore var new: Boolean = false
 ) : Persistable<UUID> {
 
     @JsonIgnore

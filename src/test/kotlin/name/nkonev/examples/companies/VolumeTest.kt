@@ -53,32 +53,38 @@ class VolumeTest {
     @Test
     fun volume_test_suppliers() {
 
-        val timeBefore = measureTime {
-            val request = RequestEntity.get(URI.create("http://localhost:${port}/company"))
-                .build()
-            restTemplate.exchange(request, String::class.java)
-        }
-        logger.info("Request time before ${timeBefore}")
+//        val timeBefore = measureTime {
+//            val request = RequestEntity.get(URI.create("http://localhost:${port}/company"))
+//                .build()
+//            restTemplate.exchange(request, String::class.java)
+//        }
+//        logger.info("Request time before ${timeBefore}")
 
         storageService.checkoutBranch(MAIN_BRANCH)
 
         val insertionTime = measureTime {
             for (i in 1..7000) {
                 logger.info("Creating ${i}")
-                storageService.createAndCheckoutBranch("branch_$i")
+                storageService.createAndCheckoutBranch("branch_${i}_${UUID.randomUUID()}")
                 val company = Company(UUID.randomUUID(), "Company number $i", new = true)
-                val savedCompany = companyRepository.save(company)
-                storageService.addAndCommit(testUserId, "Save a company $i")
+                var savedCompany = companyRepository.save(company)
+                storageService.addAndCommit(testUserId, "Save a company $i initial")
+                savedCompany.new = false
+                for (j in 1 .. 10) {
+                    savedCompany.name = "savedCompany.name" + UUID.randomUUID()
+                    savedCompany = companyRepository.save(savedCompany)
+                    storageService.addAndCommit(testUserId, "Save a company $i, iteration ${j}")
+                }
             }
         }
         logger.info("Insertion time ${insertionTime}")
 
-        val timeAfter = measureTime {
-            val get = RequestEntity.get(URI.create("http://localhost:${port}/company"))
-                .build()
-            restTemplate.exchange(get, String::class.java)
-        }
-        logger.info("Request time after ${timeAfter}")
+//        val timeAfter = measureTime {
+//            val get = RequestEntity.get(URI.create("http://localhost:${port}/company"))
+//                .build()
+//            restTemplate.exchange(get, String::class.java)
+//        }
+//        logger.info("Request time after ${timeAfter}")
     }
 
     private fun measureTime(runnable: Runnable): Duration {
