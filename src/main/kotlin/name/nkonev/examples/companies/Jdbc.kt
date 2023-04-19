@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.data.relational.core.mapping.Table
 import org.springframework.data.repository.CrudRepository
 import java.time.LocalDateTime
@@ -20,6 +21,8 @@ data class Company(
     var name: String,
     var bankAccount: String? = null,
     var estimatedSize: Int? = null,
+    @MappedCollection(idColumn = "company_id")
+    var legalEntities: MutableSet<LegalEntity> = mutableSetOf(),
     @LastModifiedDate var modifiedAt: LocalDateTime? = null,
     @Transient @JsonIgnore var new: Boolean = false
 ) : Persistable<UUID> {
@@ -42,7 +45,7 @@ data class Company(
         bankAccount: String?,
         estimatedSize: Int?,
         modifiedAt: LocalDateTime?
-    ) : this(identifier, name, bankAccount, estimatedSize, modifiedAt, false)
+    ) : this(identifier, name, bankAccount, estimatedSize, mutableSetOf(), modifiedAt, false)
 }
 
 interface CompanyRepository: CrudRepository<Company, UUID> {
@@ -78,4 +81,33 @@ data class Mapping(
 interface MappingRepository: CrudRepository<Mapping, UUID> {
     fun findByCompanyId(companyId: UUID): List<Mapping>
 
+}
+
+@Table(name = "legal_entity")
+data class LegalEntity(
+    @Id @Column("id") @JsonProperty("id") val identifier: UUID = UUID.randomUUID(),
+    var name: String,
+    var companyId: UUID,
+    @LastModifiedDate var modifiedAt: LocalDateTime? = null,
+    @Transient @JsonIgnore var new: Boolean = false
+) : Persistable<UUID> {
+
+    @JsonIgnore
+    override fun getId(): UUID {
+        return identifier
+    }
+
+    @JsonIgnore
+    override fun isNew(): Boolean {
+        return new
+    }
+
+    // Fixes Required property new not found for class
+    @PersistenceCreator
+    constructor(
+        identifier: UUID,
+        name: String,
+        companyId: UUID,
+        modifiedAt: LocalDateTime?
+    ) : this(identifier, name, companyId, modifiedAt, false)
 }

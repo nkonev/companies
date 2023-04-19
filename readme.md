@@ -19,3 +19,10 @@ curl -Ss -H 'X-Userid: c092a0ad-8148-4291-9194-6c3d12a1120a' -H 'Content-Type: a
 docker-compose up -d
 ./mvnw -DenableLoadTests=true -Dtest="name.nkonev.examples.companies.VolumeTest#fifty_thousands_branches" test
 ```
+
+
+volume_test_suppliers - fix the test in b46c427f
+PT14M26.535 - 2.1G
+
+volume_test_suppliers_with_foreign
+PT25M50.182 - 5.2G

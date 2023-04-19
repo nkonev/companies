@@ -1,4 +1,3 @@
-CALL DOLT_CHECKOUT('main');
 
 CREATE TABLE company(
     id binary(16) DEFAULT (UUID_TO_BIN(uuid())) PRIMARY KEY,
@@ -12,6 +11,14 @@ CREATE TABLE mapping(
     branch_id binary(16) PRIMARY KEY,
     user_id binary(16) NOT NULL,
     company_id binary(16) NOT NULL
+);
+
+CREATE TABLE legal_entity(
+    id binary(16) DEFAULT (UUID_TO_BIN(uuid())) PRIMARY KEY,
+    name varchar(255),
+    company_id binary(16) NOT NULL,
+    modified_at TIMESTAMP,
+    foreign key (company_id) references company(id)
 );
 
 CALL DOLT_ADD('.');

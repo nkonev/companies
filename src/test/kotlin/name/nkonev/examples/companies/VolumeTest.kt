@@ -95,6 +95,46 @@ class VolumeTest {
 //        logger.info("Request time after ${timeAfter}")
     }
 
+    @Test
+    fun volume_test_suppliers_with_foreign() {
+
+        storageService.checkoutBranch(MAIN_BRANCH)
+
+        val insertionTime = measureTime {
+            for (i in 1..7000) {
+                transactionTemplate.executeWithoutResult {
+
+                    val branch = "branch_${i}_${UUID.randomUUID()}"
+                    logger.info("Creating ${i}, branch $branch")
+                    storageService.createAndCheckoutBranch(branch)
+                    val company = Company(UUID.randomUUID(), "Company number $i", new = true)
+                    company.legalEntities = mutableSetOf(
+                        LegalEntity(name = "First", companyId = company.id, new = true),
+                        LegalEntity(name = "Second", companyId = company.id, new = true),
+                        LegalEntity(name = "Third", companyId = company.id, new = true),
+                        LegalEntity(name = "Fourth", companyId = company.id, new = true),
+                        LegalEntity(name = "Fifth", companyId = company.id, new = true),
+                    )
+                    var savedCompany = companyRepository.save(company)
+                    storageService.addAndCommit(testUserId, "Save a company $i initial")
+                    savedCompany.new = false
+                    for (j in 1..10) {
+                        savedCompany.name = "savedCompany.name" + UUID.randomUUID()
+                        savedCompany.legalEntities = savedCompany.legalEntities.map {
+                            it.name = "Patched in iteration $j " + it.name
+                            it
+                        }.toMutableSet()
+                        savedCompany = companyRepository.save(savedCompany)
+                        storageService.addAndCommit(testUserId, "Save a company $i, iteration ${j}")
+                    }
+                }
+            }
+        }
+        logger.info("Insertion time ${insertionTime}")
+
+    }
+
+
     private fun measureTime(runnable: Runnable): Duration {
         val first = Instant.now()
         runnable.run()
