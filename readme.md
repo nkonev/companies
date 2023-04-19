@@ -26,3 +26,6 @@ PT14M26.535 - 2.1G
 
 volume_test_suppliers_with_foreign
 PT25M50.182 - 5.2G
+
+volume_test_suppliers_with_foreign + index on legal_entity(name)
+PT27M16.099 - 6.2G

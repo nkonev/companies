@@ -21,5 +21,7 @@ CREATE TABLE legal_entity(
     foreign key (company_id) references company(id)
 );
 
+create index le_name_idx on legal_entity(name);
+
 CALL DOLT_ADD('.');
 CALL DOLT_COMMIT('-m', 'Company and mapping is created', '--author', 'Liquibase Migrations <liquibase@example.com>');
