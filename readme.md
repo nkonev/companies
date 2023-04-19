@@ -29,3 +29,6 @@ PT25M50.182 - 5.2G
 
 volume_test_suppliers_with_foreign + index on legal_entity(name)
 PT27M16.099 - 6.2G
+
+2 entities as above, index + foreign were dropped
+PT40M24.372 - 4.5G
