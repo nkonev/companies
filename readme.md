@@ -21,6 +21,7 @@ docker-compose up -d
 ```
 
 
+7000 companies, 1 branch per company, 10 commits per each branch
 volume_test_suppliers - fix the test in b46c427f
 PT14M26.535 - 2.1G
 
@@ -32,3 +33,7 @@ PT27M16.099 - 6.2G
 
 2 entities as above, index + foreign were dropped
 PT40M24.372 - 4.5G
+
+
+21000 companies, 1 branch per company, 10 commits per each branch
+PT1H25M7.630 - 19G

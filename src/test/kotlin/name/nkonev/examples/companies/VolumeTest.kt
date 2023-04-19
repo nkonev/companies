@@ -101,7 +101,7 @@ class VolumeTest {
         storageService.checkoutBranch(MAIN_BRANCH)
 
         val insertionTime = measureTime {
-            for (i in 1..7000) {
+            for (i in 1..21000) {
                 transactionTemplate.executeWithoutResult {
 
                     val branch = "branch_${i}_${UUID.randomUUID()}"
