@@ -44,8 +44,37 @@ class VolumeTest {
 
     val testUserId = UUID.randomUUID()
 
+//    @Test
+//    fun seven_thousand_companies() {
+//
+//        val timeBefore = measureTime {
+//            val request = RequestEntity.get(URI.create("http://localhost:${port}/company"))
+//                .build()
+//            restTemplate.exchange(request, String::class.java)
+//        }
+//        logger.info("Request time before ${timeBefore}")
+//
+//        val insertionTime = measureTime {
+//            storageService.checkoutBranch(MAIN_BRANCH)
+//            for (i in 1..7000) {
+//                val company = Company(UUID.randomUUID(), "Company number $i", new = true)
+//                val savedCompany = companyRepository.save(company)
+//                logger.info("Creating company $i")
+//            }
+//            storageService.addAndCommit(testUserId, "Save all the companies")
+//        }
+//        logger.info("Insertion time ${insertionTime}")
+//
+//        val timeAfter = measureTime {
+//            val get = RequestEntity.get(URI.create("http://localhost:${port}/company"))
+//                .build()
+//            restTemplate.exchange(get, String::class.java)
+//        }
+//        logger.info("Request time after ${timeAfter}")
+//    }
+
     @Test
-    fun seven_thousand_companies() {
+    fun twenty_one_thousand_companies() {
 
         val timeBefore = measureTime {
             val request = RequestEntity.get(URI.create("http://localhost:${port}/company"))
@@ -56,10 +85,10 @@ class VolumeTest {
 
         val insertionTime = measureTime {
             storageService.checkoutBranch(MAIN_BRANCH)
-            for (i in 1..7000) {
+            for (i in 1..21000) {
                 val company = Company(UUID.randomUUID(), "Company number $i", new = true)
                 val savedCompany = companyRepository.save(company)
-                logger.info("Creating company $i")
+                logger.info("Creating company $i, ${savedCompany.name}")
             }
             storageService.addAndCommit(testUserId, "Save all the companies")
         }

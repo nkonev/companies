@@ -19,3 +19,10 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: /db/changelog/2_add_data.sql
+
+  - changeSet:
+      id: 3
+      author: nkonev
+      changes:
+        - sqlFile:
+            path: /db/changelog/3_index.sql
